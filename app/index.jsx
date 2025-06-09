@@ -11,7 +11,7 @@ const MainScreen = () => {
     <View style={styles.container}>
       <SafeAreaView>
         <Text style={styles.text}>
-          <Text style={{ color: theme.primary }}>To</Text>doist
+          <Text style={{ color: theme.primary }}>To</Text>doists
         </Text>
         <Text
           style={[
