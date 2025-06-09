@@ -3,9 +3,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
 import { useTheme } from "@/context/themeProvider";
 import home from "@/assets/images/home.jpg";
+import { useRouter } from "expo-router";
 
 const MainScreen = () => {
   const { theme, colorScheme } = useTheme();
+  const router = useRouter();
   const styles = stylings(theme, colorScheme);
   return (
     <View style={styles.container}>
@@ -43,7 +45,10 @@ const MainScreen = () => {
           Easily create to-do lists, or to-do lists with friends, coworkers, or
           for personal use with todoist
         </Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/signup")}
+        >
           <Text style={{ color: theme.background, textAlign: "center" }}>
             Get Started
           </Text>
