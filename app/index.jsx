@@ -10,51 +10,46 @@ const MainScreen = () => {
   const router = useRouter();
   const styles = stylings(theme, colorScheme);
   return (
-    <View style={styles.container}>
-      <SafeAreaView>
-        <Text style={styles.text}>
-          <Text style={{ color: theme.primary }}>To</Text>doists
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            { marginTop: 30, fontSize: 35, fontWeight: 600 },
-          ]}
-        >
-          Manage your Team & Everything with
-          <Text style={{ color: theme.primary }}>Todoist</Text>
-        </Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.text}>
+        <Text style={{ color: theme.primary }}>To</Text>doists
+      </Text>
+      <Text
+        style={[styles.text, { marginTop: 30, fontSize: 35, fontWeight: 600 }]}
+      >
+        Manage your Team & Everything with
+        <Text style={{ color: theme.primary }}>Todoist</Text>
+      </Text>
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={home}
-            width={1000}
-            height={1000}
-            alt="Todoist image"
-            style={styles.image}
-          />
-        </View>
-        <Text
-          style={{
-            color: theme.text,
-            textAlign: "center",
-            fontSize: 15,
-            marginTop: 10,
-          }}
-        >
-          Easily create to-do lists, or to-do lists with friends, coworkers, or
-          for personal use with todoist
+      <View style={styles.imageContainer}>
+        <Image
+          source={home}
+          width={1000}
+          height={1000}
+          alt="Todoist image"
+          style={styles.image}
+        />
+      </View>
+      <Text
+        style={{
+          color: theme.text,
+          textAlign: "center",
+          fontSize: 15,
+          marginTop: 10,
+        }}
+      >
+        Easily create to-do lists, or to-do lists with friends, coworkers, or
+        for personal use with todoist
+      </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/signup")}
+      >
+        <Text style={{ color: theme.background, textAlign: "center" }}>
+          Get Started
         </Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push("/signup")}
-        >
-          <Text style={{ color: theme.background, textAlign: "center" }}>
-            Get Started
-          </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </View>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
@@ -65,6 +60,8 @@ const stylings = (theme, colorScheme) => {
     container: {
       width: "100%",
       minHeight: "100%",
+      display: "flex",
+      justifyContent: "space-between",
       backgroundColor: theme.background,
       padding: 10,
       paddingHorizontal: 20,
@@ -84,7 +81,7 @@ const stylings = (theme, colorScheme) => {
       alignSelf: "center",
     },
     button: {
-      width: "70%",
+      width: "100%",
       backgroundColor: theme.primary,
       borderRadius: 40,
       alignSelf: "center",
