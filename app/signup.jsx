@@ -73,7 +73,7 @@ export default function Signup() {
                   )}
                 </View>
                 <View style={styles.formFieldContainer}>
-                  <Text style={styles.text}> Names </Text>
+                  <Text style={styles.text}> Email </Text>
                   <Controller
                     rules={{ required: "Email is required" }}
                     control={control}
@@ -100,6 +100,10 @@ export default function Signup() {
                       minLength: {
                         value: 8,
                         message: "Password must be at least 8 characters",
+                      },
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
                       },
                       required: "Password is required",
                     }}
@@ -130,7 +134,7 @@ export default function Signup() {
                   }}
                 >
                   <Text style={styles.text}>Already have an account?</Text>
-                  <TouchableOpacity onPress={() => router.push("/sigin")}>
+                  <TouchableOpacity onPress={() => router.push("/signin")}>
                     <Text
                       style={{
                         backgroundColor: theme.primary,
@@ -195,7 +199,7 @@ const stylings = (theme, colorScheme) => {
       marginTop: 50,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+      shadowRadius: 1.84,
       elevation: 1,
       backgroundColor: colorScheme === "dark" ? "#222831" : theme.background,
     },
