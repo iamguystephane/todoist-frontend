@@ -33,17 +33,18 @@ const SignIn = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "100%",
-          }}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ width: "100%" }}
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ width: "100%" }}
+          <ScrollView
+            contentContainerStyle={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              minHeight: "100%",
+            }}
           >
             <Text style={styles.heading}> Hello, again! </Text>
             <Text style={{ textAlign: "center", color: "gray" }}>
@@ -68,13 +69,19 @@ const SignIn = () => {
                   )}
                 />
                 {errors.email && (
-                  <Text style={styles.errMsg}> {errors.email}</Text>
+                  <Text style={styles.errMsg}> {errors.email.message}</Text>
                 )}
               </View>
               <View style={styles.formFieldContainer}>
                 <Text style={styles.text}> Password </Text>
                 <Controller
-                  rules={{ required: "Password is required" }}
+                  rules={{
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email address",
+                    },
+                    required: "Password is required",
+                  }}
                   control={control}
                   name="password"
                   render={({ field: { onBlur, onChange, value } }) => (
@@ -90,7 +97,7 @@ const SignIn = () => {
                   )}
                 />
                 {errors.password && (
-                  <Text style={styles.errMsg}> Password is required! </Text>
+                  <Text style={styles.errMsg}> {errors.password.message} </Text>
                 )}
               </View>
               <View
@@ -102,7 +109,7 @@ const SignIn = () => {
                 }}
               >
                 <Text style={styles.text}>Don't have an account?</Text>
-                <TouchableOpacity onPress={() => router.push("/signup")}>
+                <TouchableOpacity onPress={() => router.push("/(tabs)/home")}>
                   <Text
                     style={{
                       backgroundColor: theme.primary,
@@ -123,8 +130,8 @@ const SignIn = () => {
                 <Text style={{ color: theme.background }}>Login</Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </>
   );

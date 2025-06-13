@@ -36,17 +36,16 @@ export default function Signup() {
     <>
       <View style={styles.container}>
         <SafeAreaView style={{ width: "100%" }}>
-          <ScrollView
-            contentContainerStyle={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: "100%",
-            }}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={{ width: "100%" }}
+            <ScrollView
+              contentContainerStyle={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "100%",
+              }}
             >
               <Text style={styles.heading}> Nice to see you! </Text>
               <Text style={styles.createAccount}> Create your account </Text>
@@ -75,7 +74,13 @@ export default function Signup() {
                 <View style={styles.formFieldContainer}>
                   <Text style={styles.text}> Email </Text>
                   <Controller
-                    rules={{ required: "Email is required" }}
+                    rules={{
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
+                      },
+                    }}
                     control={control}
                     name="email"
                     render={({ field: { onBlur, onChange, value } }) => (
@@ -90,7 +95,7 @@ export default function Signup() {
                     )}
                   />
                   {errors.email && (
-                    <Text style={styles.errMsg}> Email is required </Text>
+                    <Text style={styles.errMsg}> {errors.email.message} </Text>
                   )}
                 </View>
                 <View style={styles.formFieldContainer}>
@@ -100,10 +105,6 @@ export default function Signup() {
                       minLength: {
                         value: 8,
                         message: "Password must be at least 8 characters",
-                      },
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Enter a valid email address",
                       },
                       required: "Password is required",
                     }}
@@ -122,7 +123,7 @@ export default function Signup() {
                     )}
                   />
                   {errors.password && (
-                    <Text style={styles.errMsg}> Password is required </Text>
+                    <Text style={styles.errMsg}>{errors.password.message}</Text>
                   )}
                 </View>
                 <View
@@ -157,8 +158,8 @@ export default function Signup() {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </KeyboardAvoidingView>
-          </ScrollView>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </SafeAreaView>
       </View>
     </>
@@ -171,8 +172,6 @@ const stylings = (theme, colorScheme) => {
       minHeight: "100%",
       width: "100%",
       backgroundColor: theme.background,
-      alignItems: "center",
-      justifyContent: "center",
     },
     heading: {
       fontSize: 30,
