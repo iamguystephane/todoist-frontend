@@ -13,23 +13,69 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@/context/themeProvider";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
+import { API_URL } from "@/API";
+import Toast from "react-native-toast-message";
+import { useState } from "react";
 
 export default function Signup() {
   const { theme, colorScheme } = useTheme();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    names: "",
-    email: "",
-    password: "",
+    defaultValues: {
+      names: "",
+      email: "",
+      password: "",
+    },
   });
   const styles = stylings(theme, colorScheme);
 
-  const onSubmit = (data) => {
-    console.log("Form Data: ", data);
+  const onSubmit = async (data) => {
+    //api call after successful form submission
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_URL}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (res.ok) {
+        const { message } = resData;
+        console.log("success", message);
+        Toast.show({
+          position: "top",
+          text1: "Successful submission",
+          text2: message,
+          type: "success",
+        });
+        console.log("success");
+        router.push("/signin");
+        return;
+      }
+      const { message } = resData;
+      console.log("Detail", message);
+      Toast.show({
+        position: "top",
+        text1: "Could not submit",
+        text2: message,
+        type: "info",
+      });
+    } catch (err) {
+      console.log("Error: ", err);
+      Toast.show({
+        position: "top",
+        text1: "Error!",
+        text2: "Could not establish connect. Check your connectivity",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -153,8 +199,8 @@ export default function Signup() {
                   style={styles.btn}
                   onPress={handleSubmit(onSubmit)}
                 >
-                  <Text style={{ color: theme.background }}>
-                    Create my account
+                  <Text style={{ color: theme.background, textTransform: 'uppercase' }}>
+                    {loading ? "creating account..." : "Create my account"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -236,6 +282,7 @@ const stylings = (theme, colorScheme) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      textTransform: "uppercase",
     },
   });
 };

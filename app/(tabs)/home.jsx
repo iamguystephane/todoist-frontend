@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { useTheme } from "@/context/themeProvider";
 import { BellIcon, FileText, X, Hourglass } from "lucide-react-native";
@@ -36,11 +37,17 @@ export default function HomePage() {
             <BellIcon color={theme.text} />
           </TouchableOpacity>
         </View>
-        <View style={styles.timeCardContainer}>
-          <TimeCard Icon={FileText} colors={cardColors.fileText} />
-          <TimeCard Icon={Hourglass} colors={cardColors.hourglass} />
-          <TimeCard Icon={X} colors={cardColors.x} />
-        </View>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          ListHeaderComponent={() => (
+            <View style={styles.welcomeContainer}>
+              <TimeCard Icon={FileText} colors={cardColors.fileText} />
+              <TimeCard Icon={Hourglass} colors={cardColors.hourglass} />
+              <TimeCard Icon={X} colors={cardColors.x} />
+            </View>
+          )}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -62,11 +69,13 @@ const stylings = (theme, colorScheme) => {
       alignItems: "center",
       justifyContent: "space-between",
       paddingHorizontal: 15,
-      paddingVertical: 10,
+      gap: 10,
+      paddingVertical: 15,
     },
     welcomeText: {
       fontSize: 23,
       fontWeight: 600,
+      color: theme.text
     },
     timeCardContainer: {
       display: "flex",

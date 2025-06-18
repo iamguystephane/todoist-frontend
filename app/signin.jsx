@@ -54,7 +54,13 @@ const SignIn = () => {
               <View style={styles.formFieldContainer}>
                 <Text style={styles.text}> Email </Text>
                 <Controller
-                  rules={{ required: "Email is required" }}
+                  rules={{
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email address",
+                    },
+                    required: "Email is required",
+                  }}
                   control={control}
                   name="email"
                   render={({ field: { onBlur, onChange, value } }) => (
@@ -62,7 +68,7 @@ const SignIn = () => {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
-                      placeholder="Enter your email"
+                      placeholder="Enter your password"
                       style={styles.inputField}
                       placeholderTextColor="#000"
                     />
@@ -75,13 +81,7 @@ const SignIn = () => {
               <View style={styles.formFieldContainer}>
                 <Text style={styles.text}> Password </Text>
                 <Controller
-                  rules={{
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Enter a valid email address",
-                    },
-                    required: "Password is required",
-                  }}
+                  rules={{ required: "Password is required!" }}
                   control={control}
                   name="password"
                   render={({ field: { onBlur, onChange, value } }) => (
@@ -89,7 +89,7 @@ const SignIn = () => {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
-                      placeholder="Enter your email"
+                      placeholder="Enter your password"
                       style={styles.inputField}
                       placeholderTextColor="#000"
                       secureTextEntry={true}

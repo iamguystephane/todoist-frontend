@@ -29,6 +29,7 @@ function TimeCard({ Icon, colors }) {
     },
     text: {
       fontSize: 16,
+      color: theme.text
     },
   });
 
@@ -39,7 +40,7 @@ function TimeCard({ Icon, colors }) {
       </View>
       <Text style={styles.text}> Task today </Text>
       <Text style={styles.text}>
-        <Text style={{ fontSize: 25, fontWeight: 600 }}>10</Text> tasks
+        <Text style={{ fontSize: 25, fontWeight: 600, color: theme.text }}>10</Text> tasks
       </Text>
     </View>
   );
