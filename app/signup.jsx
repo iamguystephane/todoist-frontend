@@ -199,7 +199,12 @@ export default function Signup() {
                   style={styles.btn}
                   onPress={handleSubmit(onSubmit)}
                 >
-                  <Text style={{ color: theme.background, textTransform: 'uppercase' }}>
+                  <Text
+                    style={{
+                      color: theme.background,
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {loading ? "creating account..." : "Create my account"}
                   </Text>
                 </TouchableOpacity>

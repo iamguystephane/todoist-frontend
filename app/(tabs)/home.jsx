@@ -10,8 +10,16 @@ import {
 import { useTheme } from "@/context/themeProvider";
 import { BellIcon, FileText, X, Hourglass } from "lucide-react-native";
 import TimeCard from "@/components/reusable/time-card";
+import { useAuth } from "@/context/authProvider";
+import { useLogout } from "@/scripts/logout";
 
 export default function HomePage() {
+  const { user } = useAuth();
+  const firstName = user?.names?.split(" ")[0] || "Guest";
+  const { theme, colorScheme } = useTheme();
+  const styles = stylings(theme, colorScheme);
+  const logout = useLogout();
+
   const cardColors = {
     fileText: {
       background: "#fbefdf",
@@ -26,14 +34,12 @@ export default function HomePage() {
       color: "#933b3a",
     },
   };
-  const { theme, colorScheme } = useTheme();
-  const styles = stylings(theme, colorScheme);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.welcomeContainer}>
-          <Text style={styles.welcomeText}> Hello, Daniel </Text>
-          <TouchableOpacity>
+          <Text style={styles.welcomeText}> Hello, {firstName} </Text>
+          <TouchableOpacity onPress={logout}>
             <BellIcon color={theme.text} />
           </TouchableOpacity>
         </View>
@@ -75,7 +81,7 @@ const stylings = (theme, colorScheme) => {
     welcomeText: {
       fontSize: 23,
       fontWeight: 600,
-      color: theme.text
+      color: theme.text,
     },
     timeCardContainer: {
       display: "flex",

@@ -12,6 +12,11 @@ import { Controller, useForm } from "react-hook-form";
 import { useTheme } from "@/context/themeProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
+import { API_URL } from "../API";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "@/context/authProvider";
 
 const SignIn = () => {
   const {
@@ -22,12 +27,52 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const { theme, colorScheme } = useTheme();
+  const { setUser } = useAuth();
   const styles = stylings(theme, colorScheme);
   const router = useRouter();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_URL}/auth/login`, {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const resData = await res.json();
+      if (res.ok) {
+        const { message, token, user } = resData;
+        await AsyncStorage.setItem("authToken", token);
+        setUser(user);
+        Toast.show({
+          position: "top",
+          text1: "Success",
+          text2: message,
+          type: "success",
+        });
+        router.push("/(tabs)/home");
+        return;
+      }
+      const { message } = resData;
+      Toast.show({
+        position: "top",
+        text1: "Could not log in",
+        text2: message,
+        type: "info",
+      });
+    } catch (err) {
+      console.log(err);
+      Toast.show({
+        position: "top",
+        text1: "Failed to log in",
+        text2: err.message,
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,7 +154,7 @@ const SignIn = () => {
                 }}
               >
                 <Text style={styles.text}>Don't have an account?</Text>
-                <TouchableOpacity onPress={() => router.push("/(tabs)/home")}>
+                <TouchableOpacity onPress={() => router.push("/signup")}>
                   <Text
                     style={{
                       backgroundColor: theme.primary,
@@ -127,7 +172,9 @@ const SignIn = () => {
                 style={styles.btn}
                 onPress={handleSubmit(onSubmit)}
               >
-                <Text style={{ color: theme.background }}>Login</Text>
+                <Text style={{ color: theme.background }}>
+                  {loading ? "LOGGIN IN..." : "LOGIN"}
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
