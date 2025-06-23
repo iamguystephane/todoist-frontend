@@ -173,7 +173,7 @@ const SignIn = () => {
                 onPress={handleSubmit(onSubmit)}
               >
                 <Text style={{ color: theme.background }}>
-                  {loading ? "LOGGIN IN..." : "LOGIN"}
+                  {loading ? "LOGGING IN..." : "LOGIN"}
                 </Text>
               </TouchableOpacity>
             </View>

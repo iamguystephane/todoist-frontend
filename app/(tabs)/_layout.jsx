@@ -14,6 +14,11 @@ export default function TabsLayout() {
       alignItems: "center",
       justifyContent: "center",
       width: "100%",
+      borderTopWidth: 0,
+      shadowOffset: { width: 1, height: 2 },
+      elevation: 5,
+      shadowOpacity: 0.4,
+      shadowColor: theme.text,
     },
     addTaskStyle: {
       width: 60,
@@ -28,11 +33,19 @@ export default function TabsLayout() {
       shadowOpacity: 0.1,
       shadowColor: theme.text,
     },
+    headerStyle: {
+      backgroundColor: theme.background,
+      shadowOffset: { width: 0, height: 1 },
+      shadowColor: theme.text,
+      shadowOpacity: 0.09,
+    },
   };
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        headerStyle: styles.headerStyle,
+        headerTintColor: theme.text,
         tabBarStyle: styles.tabBarStyle,
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.text,
@@ -55,8 +68,9 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="create"
         options={{
+          headerShown: true,
           tabBarLabel: () => null,
-          title: "Create",
+          title: "Create a new task",
           tabBarIcon: ({ focused }) => (
             <View
               style={[
